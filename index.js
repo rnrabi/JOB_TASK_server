@@ -40,12 +40,17 @@ async function run() {
 
             const sort = req.query.sort;
             const search = req.query.search;
-            console.log(search)
-            console.log(sort)
+            const brandName = req.query.brandName;
+            // console.log(search)
+            // console.log(sort)
+            console.log(brandName)
 
             let query = {}
             if (search) {
                 query = { ProductName: { $regex: search, $options: 'i' } }
+            }
+            if (search || brandName) {
+                query = { ProductName: { $regex: search, $options: 'i' }, BrandName: brandName }
             }
 
             let option = {}
