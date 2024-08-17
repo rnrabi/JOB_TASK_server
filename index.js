@@ -35,9 +35,46 @@ async function run() {
 
         // products api
         app.get('/products', async (req, res) => {
-            const result = await productsCollection.find().toArray();
+            // const page = parseInt(req.query.page) - 1;
+            // const size = parseInt(req.query.size);
+
+            // const sort = req.query.sort;
+            const search = req.query.search;
+            console.log(search)
+
+            let query = {}
+            if (search) {
+                query = { ProductName: { $regex: search, $options: 'i' } }
+            }
+
+            let option = {}
+            // if (sort) {
+            //     option = { sort: { price: sort === 'asc' ? 1 : -1 } }
+            // }
+
+            // const result = await productsCollection.find(query, option).skip(page * size).limit(size).toArray();
+            // res.send(result)
+            const result = await productsCollection.find(query, option).limit(8).toArray();
             res.send(result)
         })
+
+        app.get('/products-count', async (req, res) => {
+            const search = req.query.search;
+            let query = {}
+            if (search) {
+                query = { name: { $regex: search, $options: 'i' } }
+            }
+            const count = await productsCollection.countDocuments(query);
+            res.send({ count })
+        })
+
+
+
+
+
+
+
+
 
 
 
