@@ -38,9 +38,10 @@ async function run() {
             // const page = parseInt(req.query.page) - 1;
             // const size = parseInt(req.query.size);
 
-            // const sort = req.query.sort;
+            const sort = req.query.sort;
             const search = req.query.search;
             console.log(search)
+            console.log(sort)
 
             let query = {}
             if (search) {
@@ -48,9 +49,15 @@ async function run() {
             }
 
             let option = {}
-            // if (sort) {
-            //     option = { sort: { price: sort === 'asc' ? 1 : -1 } }
+            // if (sort == 'new') {
+            //     option = { sort: { Price: 1 } }
             // }
+            if (sort == 'asc') {
+                option = { sort: { Price: -1 } }
+            }
+            if (sort == 'dsc') {
+                option = { sort: { Price: 1 } }
+            }
 
             // const result = await productsCollection.find(query, option).skip(page * size).limit(size).toArray();
             // res.send(result)
