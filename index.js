@@ -75,7 +75,6 @@ async function run() {
             }
 
             // const result = await productsCollection.find(query, option).skip(page * size).limit(size).toArray();
-            // res.send(result)
             const result = await productsCollection.find(query, option).skip(2).limit(8).toArray();
             res.send(result)
         })
@@ -90,13 +89,6 @@ async function run() {
             const count = await productsCollection.countDocuments(query);
             res.send({ count })
         })
-
-
-
-
-
-
-
 
 
 
