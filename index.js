@@ -42,22 +42,26 @@ async function run() {
             const search = req.query.search;
             const brandName = req.query.brandName;
             const category = req.query.category;
-            // console.log(search)
-            // console.log(sort)
-            // console.log(brandName)
-            console.log(category)
+            // const minPrice = req.query.minPrice;
+            // const maxPrice = req.query.maxPrice;
+            console.log(search)
+           
 
             let query = {}
             if (search) {
-                query = { ProductName: { $regex: search, $options: 'i' } }
+                query.ProductName = { $regex: search, $options: 'i' };
             }
-            if (search || brandName) {
-                query = { ProductName: { $regex: search, $options: 'i' }, BrandName: brandName }
+            if (brandName) {
+                query.BrandName = brandName;
             }
+            if (category) {
+                query.Category = category;
+            }
+            // if (minPrice && maxPrice) {
+            //     query.Price = { $gte: minPrice, $lte: maxPrice };
+            // }
 
-            if (search || brandName || category) {
-                query = { ProductName: { $regex: search, $options: 'i' }, BrandName: brandName, Category: category }
-            }
+          
 
             let option = {}
             // if (sort == 'new') {
@@ -72,15 +76,16 @@ async function run() {
 
             // const result = await productsCollection.find(query, option).skip(page * size).limit(size).toArray();
             // res.send(result)
-            const result = await productsCollection.find(query, option).limit(8).toArray();
+            const result = await productsCollection.find(query, option).skip(2).limit(8).toArray();
             res.send(result)
         })
 
         app.get('/products-count', async (req, res) => {
             const search = req.query.search;
+            console.log(search)
             let query = {}
             if (search) {
-                query = { name: { $regex: search, $options: 'i' } }
+                query = { ProductName: { $regex: search, $options: 'i' } }
             }
             const count = await productsCollection.countDocuments(query);
             res.send({ count })
